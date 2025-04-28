@@ -1,6 +1,6 @@
 # PandesalAssembler
 
-PandesalAssembler is an assembler for the custom **Pandesal CPU**, an 8-bit processor inspired by the MOS 6502.  
+PandesalAssembler is an assembler for the [Pandesal CPU](https://github.com/Shim06/PandesalCPU), an 8-bit processor inspired by the MOS 6502.  
 It reads `.asm` source files and outputs a `.bin` binary ready for use in emulators, hardware projects, or educational systems.
 PandesalAssembler is available on GitHub under the <a href="https://github.com/Shim06/PandesalAssembler/blob/main/LICENSE" target="_blank">GNU General Public License v3.0</a> (GPLv3).
 
