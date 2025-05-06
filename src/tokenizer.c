@@ -63,14 +63,12 @@ Token read_token(Tokenizer* tz, HashTable* mnemonic_table)
     case '\0':
         token.type = TOKEN_END;
         return token;   
-        break;
 
     case ';':
         advance(tz);
         i = 0;
         while (peek(tz) != '\n' && peek(tz) != '\0') { advance(tz); }
         return read_token(tz, mnemonic_table);
-        break;
 
     case '#':
         advance(tz);
@@ -84,7 +82,6 @@ Token read_token(Tokenizer* tz, HashTable* mnemonic_table)
         token.text[i] = '\0';
         token.type = TOKEN_IMMEDIATE;
         return token;
-        break;
 
     case '$':
         i = 0;
@@ -96,7 +93,6 @@ Token read_token(Tokenizer* tz, HashTable* mnemonic_table)
         token.text[i] = '\0';
         token.type = TOKEN_ADDRESS;
         return token;
-        break;
 
     case '(':
         i = 0;
@@ -109,14 +105,23 @@ Token read_token(Tokenizer* tz, HashTable* mnemonic_table)
         token.text[i] = '\0';
         token.type = TOKEN_INDIRECT;
         return token;
-        break;
 
     case ',':
         token.text[0] = advance(tz);
         token.text[1] = '\0';
         token.type = TOKEN_COMMA;
         return token;
-        break;
+
+    case '.':
+        i = 0;
+        while (peek(tz) != '\0' && !isspace(peek(tz)))
+        {
+            if (i < sizeof(token.text) - 1) token.text[i++] = advance(tz);
+            else advance(tz);
+        }
+        token.text[i] = '\0';
+        token.type = TOKEN_DIRECTIVE;
+        return token;
     }
 
     if (isalpha(c) || c == '_')

@@ -3,9 +3,9 @@
 int main(int argc, char* argv[])
 {
 	char* input_filename = NULL;
-	char* output_filename = "a.bin";
-
-	if (argc < 2) 
+	char* output_filename = "fibonacci.bin";
+	input_filename = "fibonacci.asm";
+	/*if (argc < 2) 
 	{
 		fprintf(stderr, "Usage: %s <input file> [-o <output file>]\n", argv[0]);
 		return ERR_SYNTAX;
@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-	if (!input_filename) { fprintf(stderr, "Error: No input file specified.\n"); return ERR_SYNTAX; }
+	if (!input_filename) { fprintf(stderr, "Error: No input file specified.\n"); return ERR_SYNTAX; }*/
 
 	// Read assembly file and tokenize
 	int error;
@@ -104,11 +104,11 @@ int first_pass(TokenList* list, HashTable* symbol_table)
 	{
 		process_line(line_tokens, line_token_count, &program_counter, line_counter, symbol_table);
 		
-		/*for (int i = 0; i < line_token_count; i++)
+		for (int i = 0; i < line_token_count; i++)
 		{
 			printf("line %i: [%i] %s\n", line_tokens[i].line, line_tokens[i].type, line_tokens[i].text);
 		}
-		printf("\n");*/
+		printf("\n");
 		
 	}
 	line_token_count = 0;
@@ -192,10 +192,23 @@ int generate_binary(Token* tokens, int token_count, HashTable* symbol_table, Has
 {
 	int tok_index = 0;
 	if (tokens[0].type == TOKEN_NEWLINE || tokens[0].type == TOKEN_COMMENT) return 0;
-	if (tokens[0].type != TOKEN_MNEMONIC && tokens[0].type != TOKEN_LABEL) return ERR_SYNTAX;
+	if (tokens[0].type != TOKEN_MNEMONIC && tokens[0].type != TOKEN_LABEL && tokens->type != TOKEN_DIRECTIVE) return ERR_SYNTAX;
 
 	while (tok_index < token_count)
 	{
+		if (tokens[tok_index].type == TOKEN_DIRECTIVE)
+		{
+			if (strcmp(tokens[tok_index].text, ".byte") == 0)
+			{
+				uint8_t byte = get_immediate_value(tokens[tok_index + 1].text);
+				fwrite(&byte, sizeof(byte), 1, file);
+				printf("%.2x ", byte);
+				tok_index += 2;
+				continue;
+			}
+		}
+
+
 		if (tokens[tok_index].type != TOKEN_MNEMONIC)
 		{
 			tok_index++;
@@ -221,7 +234,7 @@ int generate_binary(Token* tokens, int token_count, HashTable* symbol_table, Has
 			tok_index++;
 			break;
 		case ADDR_IMMEDIATE:
-			uint8_t imm_value = get_immediate_value(tokens[tok_index + 1].text);
+			uint8_t imm_value = get_immediate_value(tokens[tok_index + 1].text + 1);
 			fwrite(&opcode, sizeof(opcode), 1, file);
 			fwrite(&imm_value, sizeof(imm_value), 1, file);
 			printf("%.2x ", opcode);
@@ -273,13 +286,13 @@ uint16_t parse_address(const char* str)
 // '%' prefix - Binary | '$' prefix - Hexadecimal
 uint8_t get_immediate_value(const char* val)
 {
-	if (val[1] == '%')
+	if (val[0] == '%')
 	{
-		return (uint8_t)strtol((val + 1 + 1), NULL, 2);
+		return (uint8_t)strtol((val + 1), NULL, 2);
 	}
-	else if (val[1] == '$')
+	else if (val[0] == '$')
 	{
-		return (uint8_t)strtol((val + 1 + 1), NULL, 16);
+		return (uint8_t)strtol((val + 1), NULL, 16);
 	}
 	return (uint8_t)strtol((val + 1), NULL, 10);
 }
