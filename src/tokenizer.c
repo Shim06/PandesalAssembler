@@ -134,7 +134,11 @@ Token read_token(Tokenizer* tz, HashTable* mnemonic_table)
         }
         token.text[i] = '\0';
         
-        if (peek(tz) == ':')
+        if (is_register(token.text))
+        {
+            token.type = TOKEN_REGISTER;
+        }
+        else if (peek(tz) == ':')
         {
             advance(tz);
             token.type = TOKEN_LABEL;

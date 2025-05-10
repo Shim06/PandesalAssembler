@@ -3,9 +3,9 @@
 int main(int argc, char* argv[])
 {
 	char* input_filename = NULL;
-	char* output_filename = "fibonacci.bin";
-	input_filename = "fibonacci.asm";
-	/*if (argc < 2) 
+	char* output_filename = "a.bin";	
+
+	if (argc < 2) 
 	{
 		fprintf(stderr, "Usage: %s <input file> [-o <output file>]\n", argv[0]);
 		return ERR_SYNTAX;
@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-	if (!input_filename) { fprintf(stderr, "Error: No input file specified.\n"); return ERR_SYNTAX; }*/
+	if (!input_filename) { fprintf(stderr, "Error: No input file specified.\n"); return ERR_SYNTAX; }
 
 	// Read assembly file and tokenize
 	int error;
@@ -228,6 +228,7 @@ int generate_binary(Token* tokens, int token_count, HashTable* symbol_table, Has
 
 		switch (addrmode)
 		{
+		case ADDR_ACCUMULATOR:
 		case ADDR_IMPLIED:
 			fwrite(&opcode, sizeof(opcode), 1, file);
 			printf("%.2x ", opcode);
@@ -294,5 +295,5 @@ uint8_t get_immediate_value(const char* val)
 	{
 		return (uint8_t)strtol((val + 1), NULL, 16);
 	}
-	return (uint8_t)strtol((val + 1), NULL, 10);
+	return (uint8_t)strtol((val), NULL, 10);
 }

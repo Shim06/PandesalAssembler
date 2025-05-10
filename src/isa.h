@@ -48,6 +48,14 @@
 #define DEX_IMP 0x29
 #define DEY_IMP 0x2A
 #define CMP_IMP 0x2B
+#define ASL_A 0x2C
+#define LSR_A 0x2D
+#define ROL_A 0x2E
+#define ROR_A 0x2F
+#define ASL_ABS 0x30
+#define LSR_ABS 0x31
+#define ROL_ABS 0x32
+#define ROR_ABS 0x33
 #define INVALID_OPCODE 0xFFFF
 
 typedef enum
@@ -93,11 +101,16 @@ typedef enum
 	MNEM_DEX,
 	MNEM_DEY,
 	MNEM_CMP,
+	MNEM_ASL,
+	MNEM_LSR,
+	MNEM_ROL,
+	MNEM_ROR,
 	MNEMONIC_COUNT,
 } Mnemonic;
 
 typedef enum
 {
+	ADDR_ACCUMULATOR,
 	ADDR_IMPLIED,
 	ADDR_IMMEDIATE,
 	ADDR_ABSOLUTE,
@@ -124,6 +137,7 @@ extern const InstructionMnemonic instruction_mnemonic_map[MNEMONIC_COUNT];
 extern const uint16_t opcode_table[MNEMONIC_COUNT][ADDR_COUNT];
 
 HashTable* initialize_mnemonic_table(void);
+uint8_t is_register(const char* str);
 AddressingMode get_addressing_mode(Token* tokens, int start, int count);
 uint8_t get_instruction_size(AddressingMode mode);
 uint16_t get_opcode(Mnemonic mnemonic, AddressingMode addrmode);
