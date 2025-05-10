@@ -10,6 +10,7 @@ const InstructionMnemonic instruction_mnemonic_map[MNEMONIC_COUNT] = {
     {"BNE", MNEM_BNE}, {"BPL", MNEM_BPL}, {"BVC", MNEM_BVC}, {"BVS", MNEM_BVS}, {"INX", MNEM_INX},
     {"INY", MNEM_INY}, {"SEC", MNEM_SEC}, {"DEX", MNEM_DEX}, {"DEY", MNEM_DEY}, {"CMP", MNEM_CMP},
     {"PLA", MNEM_PLA}, {"ASL", MNEM_ASL}, {"LSR", MNEM_LSR}, {"ROL", MNEM_ROL}, {"ROR", MNEM_ROR},
+    {"CPX", MNEM_CPX}, {"CPY", MNEM_CPY}
 };  
 
 const uint16_t opcode_table[MNEMONIC_COUNT][ADDR_COUNT] = {
@@ -328,6 +329,20 @@ const uint16_t opcode_table[MNEMONIC_COUNT][ADDR_COUNT] = {
         [ADDR_IMMEDIATE] = INVALID_OPCODE,
         [ADDR_ABSOLUTE] = ROR_ABS
     },
+    [MNEM_CPX] =
+    {
+        [ADDR_ACCUMULATOR] = INVALID_OPCODE,
+        [ADDR_IMPLIED] = INVALID_OPCODE,
+        [ADDR_IMMEDIATE] = CPX_IMP,
+        [ADDR_ABSOLUTE] = CPX_ABS
+    },
+    [MNEM_CPY] = 
+    {
+        [ADDR_ACCUMULATOR] = INVALID_OPCODE,
+        [ADDR_IMPLIED] = INVALID_OPCODE,
+        [ADDR_IMMEDIATE] = CPY_IMP,
+        [ADDR_ABSOLUTE] = CPY_ABS
+    }
 };
 
 

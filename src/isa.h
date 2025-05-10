@@ -56,6 +56,10 @@
 #define LSR_ABS 0x31
 #define ROL_ABS 0x32
 #define ROR_ABS 0x33
+#define CPX_IMP 0x34
+#define CPY_IMP 0x35
+#define CPX_ABS 0x36
+#define CPY_ABS 0x37
 #define INVALID_OPCODE 0xFFFF
 
 typedef enum
@@ -105,6 +109,8 @@ typedef enum
 	MNEM_LSR,
 	MNEM_ROL,
 	MNEM_ROR,
+	MNEM_CPX,
+	MNEM_CPY,
 	MNEMONIC_COUNT,
 } Mnemonic;
 
