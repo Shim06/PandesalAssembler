@@ -3,9 +3,10 @@
 int main(int argc, char* argv[])
 {
 	char* input_filename = NULL;
-	char* output_filename = "a.bin";	
+	input_filename = "temp.asm";
+	char* output_filename = "temp.bin";	
 
-	if (argc < 2) 
+	/*if (argc < 2) 
 	{
 		fprintf(stderr, "Usage: %s <input file> [-o <output file>]\n", argv[0]);
 		return ERR_SYNTAX;
@@ -39,7 +40,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-	if (!input_filename) { fprintf(stderr, "Error: No input file specified.\n"); return ERR_SYNTAX; }
+	if (!input_filename) { fprintf(stderr, "Error: No input file specified.\n"); return ERR_SYNTAX; }*/
 
 	// Read assembly file and tokenize
 	int error;
@@ -175,6 +176,13 @@ void process_line(Token* tokens, int token_count, uint16_t* pc, int line, HashTa
 	while (tok_index < token_count)
 	{
 		Token tok = tokens[tok_index];
+		if (tok.type == TOKEN_DIRECTIVE && strcmp(".byte", tok.text) == 0)
+		{
+			tok_index++;
+			(*pc)++;
+			continue;
+		}
+
 		if (tok.type != TOKEN_MNEMONIC)
 		{
 			tok_index++;
