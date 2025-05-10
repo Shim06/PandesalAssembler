@@ -1,4 +1,5 @@
 #include "tokenizer.h"
+#include "isa.h"
 
 char peek(Tokenizer* tz)
 {
