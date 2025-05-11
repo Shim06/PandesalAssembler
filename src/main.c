@@ -3,10 +3,11 @@
 int main(int argc, char* argv[])
 {
 	char* input_filename = NULL;
-	input_filename = "temp.asm";
-	char* output_filename = "temp.bin";	
+	char* output_filename = "a.bin";
+	//input_filename = "temp.asm";
+	//output_filename = "temp.bin";	
 
-	/*if (argc < 2) 
+	if (argc < 2) 
 	{
 		fprintf(stderr, "Usage: %s <input file> [-o <output file>]\n", argv[0]);
 		return ERR_SYNTAX;
@@ -40,7 +41,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-	if (!input_filename) { fprintf(stderr, "Error: No input file specified.\n"); return ERR_SYNTAX; }*/
+	if (!input_filename) { fprintf(stderr, "Error: No input file specified.\n"); return ERR_SYNTAX; }
 
 	// Read assembly file and tokenize
 	int error;
@@ -252,6 +253,8 @@ int generate_binary(Token* tokens, int token_count, HashTable* symbol_table, Has
 			break;
 
 		case ADDR_ABSOLUTE:
+		case ADDR_ABSOLUTEX:
+		case ADDR_ABSOLUTEY:
 			fwrite(&opcode, sizeof(opcode), 1, file);
 			printf("%.2x ", opcode);
 
