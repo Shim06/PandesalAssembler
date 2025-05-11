@@ -60,6 +60,8 @@
 #define CPY_IMP 0x35
 #define CPX_ABS 0x36
 #define CPY_ABS 0x37
+#define LDX_ABS 0x38
+#define LDY_ABS 0x39
 #define INVALID_OPCODE 0xFFFF
 
 typedef enum

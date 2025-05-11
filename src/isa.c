@@ -82,14 +82,14 @@ const uint16_t opcode_table[MNEMONIC_COUNT][ADDR_COUNT] = {
         [ADDR_ACCUMULATOR] = INVALID_OPCODE,
         [ADDR_IMPLIED] = INVALID_OPCODE,
         [ADDR_IMMEDIATE] = LDX_IMM,
-        [ADDR_ABSOLUTE] = INVALID_OPCODE
+        [ADDR_ABSOLUTE] = LDX_ABS
     },
     [MNEM_LDY] = 
     {
         [ADDR_ACCUMULATOR] = INVALID_OPCODE,
         [ADDR_IMPLIED] = INVALID_OPCODE,
         [ADDR_IMMEDIATE] = LDY_IMM,
-        [ADDR_ABSOLUTE] = INVALID_OPCODE
+        [ADDR_ABSOLUTE] = LDY_ABS
     },
     [MNEM_TAX] = 
     {
