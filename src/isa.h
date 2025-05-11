@@ -62,6 +62,12 @@
 #define CPY_ABS 0x37
 #define LDX_ABS 0x38
 #define LDY_ABS 0x39
+#define LDA_ABSX 0x3A
+#define LDA_ABSY 0x3B
+#define AND_ABSX 0x3C
+#define AND_ABSY 0x3D
+#define STA_ABSX 0x3E
+#define STA_ABSY 0x3F
 #define INVALID_OPCODE 0xFFFF
 
 typedef enum
