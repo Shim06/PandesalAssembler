@@ -38,8 +38,8 @@ const uint16_t opcode_table[MNEMONIC_COUNT][ADDR_COUNT] = {
         [ADDR_IMPLIED] = INVALID_OPCODE,
         [ADDR_IMMEDIATE] = INVALID_OPCODE,
         [ADDR_ABSOLUTE] = STA_ABS,
-        [ADDR_ABSOLUTEX] = INVALID_OPCODE,
-        [ADDR_ABSOLUTEY] = INVALID_OPCODE
+        [ADDR_ABSOLUTEX] = STA_ABSX,
+        [ADDR_ABSOLUTEY] = STA_ABSY
     },
     [MNEM_JMP] = 
     {
