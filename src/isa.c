@@ -65,8 +65,8 @@ const uint16_t opcode_table[MNEMONIC_COUNT][ADDR_COUNT] = {
         [ADDR_IMPLIED] = INVALID_OPCODE,
         [ADDR_IMMEDIATE] = AND_IMM,
         [ADDR_ABSOLUTE] = INVALID_OPCODE,
-        [ADDR_ABSOLUTEX] = INVALID_OPCODE,
-        [ADDR_ABSOLUTEY] = INVALID_OPCODE
+        [ADDR_ABSOLUTEX] = AND_ABSX,
+        [ADDR_ABSOLUTEY] = AND_ABSY
     },
     [MNEM_ORA] = 
     {
