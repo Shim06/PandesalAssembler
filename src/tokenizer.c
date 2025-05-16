@@ -75,13 +75,24 @@ Token read_token(Tokenizer* tz, HashTable* mnemonic_table)
         advance(tz);
         i = 0;
         token.text[i++] = '#';
-        while (isxdigit(peek(tz)) || peek(tz) == '$')
+        while (isxdigit(peek(tz)) || peek(tz) == '$' || peek(tz) == '%')
         {
             if (i < sizeof(token.text) - 1) token.text[i++] = advance(tz);
             else advance(tz);
         }
         token.text[i] = '\0';
         token.type = TOKEN_IMMEDIATE;
+        return token;
+
+    case '%':
+        i = 0;
+        while (peek(tz) == '0' || peek(tz) == '1' || peek(tz) == '%')
+        {
+            if (i < sizeof(token.text) - 1) token.text[i++] = advance(tz);
+            else advance(tz);
+        }
+        token.text[i] = '\0';
+        token.type = TOKEN_ADDRESS;
         return token;
 
     case '$':
@@ -96,15 +107,14 @@ Token read_token(Tokenizer* tz, HashTable* mnemonic_table)
         return token;
 
     case '(':
-        i = 0;
-        while (peek(tz) != ')' && peek(tz) != '\0')
-        {
-            if (i < sizeof(token.text) - 1) token.text[i++] = advance(tz);
-            else advance(tz);
-        }
-        if (peek(tz) == ')') token.text[i++] = advance(tz);
-        token.text[i] = '\0';
-        token.type = TOKEN_INDIRECT;
+        token.text[0] = advance(tz);
+        token.text[1] = '\0';
+        token.type = TOKEN_OPENPAREN;
+        return token;
+    case ')':
+        token.text[0] = advance(tz);
+        token.text[1] = '\0';
+        token.type = TOKEN_CLOSEPAREN;
         return token;
 
     case ',':
