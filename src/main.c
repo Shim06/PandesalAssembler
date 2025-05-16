@@ -5,7 +5,7 @@ int main(int argc, char* argv[])
 	char* input_filename = NULL;
 	char* output_filename = "a.bin";
 	//input_filename = "temp.asm";
-	//output_filename = "temp.bin";	
+	//output_filename = "temp.bin";
 
 	if (argc < 2) 
 	{
@@ -255,12 +255,14 @@ int generate_binary(Token* tokens, int token_count, HashTable* symbol_table, Has
 		case ADDR_ABSOLUTE:
 		case ADDR_ABSOLUTEX:
 		case ADDR_ABSOLUTEY:
+		case ADDR_INDIRECT:
 			fwrite(&opcode, sizeof(opcode), 1, file);
 			printf("%.2x ", opcode);
 
 			uint16_t address = 0x0000;
 			uint8_t op1 = 0;
 			uint8_t op2 = 0;
+			if (tokens[tok_index + 1].type == TOKEN_OPENPAREN) tok_index++;
 			if (tokens[tok_index + 1].type == TOKEN_ADDRESS)
 			{
 				address = parse_address(tokens[tok_index + 1].text);
