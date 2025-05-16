@@ -496,6 +496,13 @@ AddressingMode get_addressing_mode(Token* tokens, int start, int count)
     }
 
     // Todo: Indirect (X,Y), ZeroPage (X, Y), 
+    if (op1.type == TOKEN_OPENPAREN)
+    {
+        if (op2.type == TOKEN_ADDRESS || op2.type == TOKEN_IDENTIFIER)
+        {
+            if (op3.type == TOKEN_CLOSEPAREN) return ADDR_INDIRECT;
+        }
+    }
     return -1;
 }
 
