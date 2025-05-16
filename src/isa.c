@@ -10,11 +10,11 @@ const InstructionMnemonic instruction_mnemonic_map[MNEMONIC_COUNT] = {
     {"BNE", MNEM_BNE}, {"BPL", MNEM_BPL}, {"BVC", MNEM_BVC}, {"BVS", MNEM_BVS}, {"INX", MNEM_INX},
     {"INY", MNEM_INY}, {"SEC", MNEM_SEC}, {"DEX", MNEM_DEX}, {"DEY", MNEM_DEY}, {"CMP", MNEM_CMP},
     {"PLA", MNEM_PLA}, {"ASL", MNEM_ASL}, {"LSR", MNEM_LSR}, {"ROL", MNEM_ROL}, {"ROR", MNEM_ROR},
-    {"CPX", MNEM_CPX}, {"CPY", MNEM_CPY}
+    {"CPX", MNEM_CPX}, {"CPY", MNEM_CPY}, {"INC", MNEM_INC}
 };  
 
 const uint16_t opcode_table[MNEMONIC_COUNT][ADDR_COUNT] = {
-    [MNEM_NOP] = 
+    [MNEM_NOP] =
     {
         [ADDR_ACCUMULATOR] = INVALID_OPCODE,
         [ADDR_IMPLIED] = NOP,
@@ -23,7 +23,7 @@ const uint16_t opcode_table[MNEMONIC_COUNT][ADDR_COUNT] = {
         [ADDR_ABSOLUTEX] = INVALID_OPCODE,
         [ADDR_ABSOLUTEY] = INVALID_OPCODE
     },
-    [MNEM_LDA] = 
+    [MNEM_LDA] =
     {
         [ADDR_ACCUMULATOR] = INVALID_OPCODE,
         [ADDR_IMPLIED] = INVALID_OPCODE,
@@ -32,14 +32,15 @@ const uint16_t opcode_table[MNEMONIC_COUNT][ADDR_COUNT] = {
         [ADDR_ABSOLUTEX] = LDA_ABSX,
         [ADDR_ABSOLUTEY] = LDA_ABSY
     },
-    [MNEM_STA] = 
+    [MNEM_STA] =
     {
         [ADDR_ACCUMULATOR] = INVALID_OPCODE,
         [ADDR_IMPLIED] = INVALID_OPCODE,
         [ADDR_IMMEDIATE] = INVALID_OPCODE,
         [ADDR_ABSOLUTE] = STA_ABS,
         [ADDR_ABSOLUTEX] = STA_ABSX,
-        [ADDR_ABSOLUTEY] = STA_ABSY
+        [ADDR_ABSOLUTEY] = STA_ABSY,
+        [ADDR_INDIRECT] = STA_IND
     },
     [MNEM_JMP] = 
     {
@@ -56,8 +57,8 @@ const uint16_t opcode_table[MNEMONIC_COUNT][ADDR_COUNT] = {
         [ADDR_IMPLIED] = INVALID_OPCODE,
         [ADDR_IMMEDIATE] = ADC_IMM,
         [ADDR_ABSOLUTE] = ADC_ABS,
-        [ADDR_ABSOLUTEX] = INVALID_OPCODE,
-        [ADDR_ABSOLUTEY] = INVALID_OPCODE
+        [ADDR_ABSOLUTEX] = ADC_ABSX,
+        [ADDR_ABSOLUTEY] = ADC_ABSY
     },
     [MNEM_AND] = 
     {
@@ -434,6 +435,15 @@ const uint16_t opcode_table[MNEMONIC_COUNT][ADDR_COUNT] = {
         [ADDR_IMPLIED] = INVALID_OPCODE,
         [ADDR_IMMEDIATE] = CPY_IMP,
         [ADDR_ABSOLUTE] = CPY_ABS,
+        [ADDR_ABSOLUTEX] = INVALID_OPCODE,
+        [ADDR_ABSOLUTEY] = INVALID_OPCODE
+    },
+    [MNEM_INC] =
+    {
+        [ADDR_ACCUMULATOR] = INC_A,
+        [ADDR_IMPLIED] = INVALID_OPCODE,
+        [ADDR_IMMEDIATE] = INVALID_OPCODE,
+        [ADDR_ABSOLUTE] = INC_ABS,
         [ADDR_ABSOLUTEX] = INVALID_OPCODE,
         [ADDR_ABSOLUTEY] = INVALID_OPCODE
     }

@@ -68,6 +68,11 @@
 #define AND_ABSY 0x3D
 #define STA_ABSX 0x3E
 #define STA_ABSY 0x3F
+#define INC_A 0x40
+#define INC_ABS 0x41
+#define STA_IND 0x42
+#define ADC_ABSX 0x43
+#define ADC_ABSY 0x44
 #define INVALID_OPCODE 0xFFFF
 
 typedef enum
@@ -119,6 +124,7 @@ typedef enum
 	MNEM_ROR,
 	MNEM_CPX,
 	MNEM_CPY,
+	MNEM_INC,
 	MNEMONIC_COUNT,
 } Mnemonic;
 
