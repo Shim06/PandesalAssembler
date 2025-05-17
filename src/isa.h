@@ -47,7 +47,7 @@
 #define SEC_IMP 0x28
 #define DEX_IMP 0x29
 #define DEY_IMP 0x2A
-#define CMP_IMP 0x2B
+#define CMP_IMM 0x2B
 #define ASL_A 0x2C
 #define LSR_A 0x2D
 #define ROL_A 0x2E
