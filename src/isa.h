@@ -75,6 +75,8 @@
 #define ADC_ABSY 0x44
 #define ADD_IMM 0x45
 #define SUB_IMM 0x46
+#define ADD_ABS 0x47
+#define SUB_ABS 0x48
 #define INVALID_OPCODE 0xFFFF
 
 typedef enum
