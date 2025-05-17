@@ -73,6 +73,8 @@
 #define STA_IND 0x42
 #define ADC_ABSX 0x43
 #define ADC_ABSY 0x44
+#define ADD_IMM 0x45
+#define SUB_IMM 0x46
 #define INVALID_OPCODE 0xFFFF
 
 typedef enum
@@ -125,6 +127,8 @@ typedef enum
 	MNEM_CPX,
 	MNEM_CPY,
 	MNEM_INC,
+	MNEM_ADD,
+	MNEM_SUB,
 	MNEMONIC_COUNT,
 } Mnemonic;
 
