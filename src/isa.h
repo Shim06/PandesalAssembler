@@ -77,6 +77,11 @@
 #define SUB_IMM 0x46
 #define ADD_ABS 0x47
 #define SUB_ABS 0x48
+#define LD0_IMM 0x49
+#define LD1_IMM 0x4A
+#define LD2_IMM 0x4B
+#define LD3_IMM 0x4C
+#define LD4_IMM 0x4D
 #define INVALID_OPCODE 0xFFFF
 
 typedef enum
@@ -131,6 +136,11 @@ typedef enum
 	MNEM_INC,
 	MNEM_ADD,
 	MNEM_SUB,
+	MNEM_LD0,
+	MNEM_LD1,
+	MNEM_LD2,
+	MNEM_LD3,
+	MNEM_LD4,
 	MNEMONIC_COUNT,
 } Mnemonic;
 
