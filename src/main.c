@@ -148,6 +148,8 @@ int second_pass(TokenList* list, HashTable* symbol_table, HashTable* mnemonic_ta
 					uint16_t temp_opcode = get_opcode(mnemonic, addrmode);
 					fprintf(stderr, "\nError on line %d: Invalid instruction '%s' with addressing mode '%i' \n", line_tokens[0].line, line_tokens[0].text, addrmode);
 					return error;
+				case ERR_INVALID_SYMBOL:
+					return error;
 				}
 			}
 			line_token_count = 0;
@@ -271,8 +273,13 @@ int generate_binary(Token* tokens, int token_count, HashTable* symbol_table, Has
 			}
 			else if (tokens[tok_index + 1].type == TOKEN_IDENTIFIER)
 			{
-				address = *search(symbol_table, tokens[tok_index + 1].text);
-				if (!address) return ERR_INVALID_SYMBOL;
+				int* temp = search(symbol_table, tokens[tok_index + 1].text);
+				if (!temp)
+				{
+					fprintf(stderr, "\nError on line %d: Invalid symbol\n", tokens[tok_index + 1].line);
+					return ERR_INVALID_SYMBOL;
+				}
+				address = *temp;
 				op1 = address & 0x00FF;
 				op2 = (address >> 8) & 0x00FF;
 			}
