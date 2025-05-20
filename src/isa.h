@@ -87,6 +87,11 @@
 #define LD2_ABS 0x50
 #define LD3_ABS 0x51
 #define LD4_ABS 0x52
+#define TA0_IMPL 0x53
+#define TA1_IMPL 0x54
+#define TA2_IMPL 0x55
+#define TA3_IMPL 0x56
+#define TA4_IMPL 0x57
 #define INVALID_OPCODE 0xFFFF
 
 typedef enum
@@ -146,6 +151,11 @@ typedef enum
 	MNEM_LD2,
 	MNEM_LD3,
 	MNEM_LD4,
+	MNEM_TA0,
+	MNEM_TA1,
+	MNEM_TA2,
+	MNEM_TA3,
+	MNEM_TA4,
 	MNEMONIC_COUNT,
 } Mnemonic;
 
