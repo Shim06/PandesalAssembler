@@ -82,6 +82,11 @@
 #define LD2_IMM 0x4B
 #define LD3_IMM 0x4C
 #define LD4_IMM 0x4D
+#define LD0_ABS 0x4E
+#define LD1_ABS 0x4F
+#define LD2_ABS 0x50
+#define LD3_ABS 0x51
+#define LD4_ABS 0x52
 #define INVALID_OPCODE 0xFFFF
 
 typedef enum
