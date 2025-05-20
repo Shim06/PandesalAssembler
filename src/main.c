@@ -148,7 +148,14 @@ int second_pass(TokenList* list, HashTable* symbol_table, HashTable* mnemonic_ta
 					uint16_t temp_opcode = get_opcode(mnemonic, addrmode);
 					fprintf(stderr, "\nError on line %d: Invalid instruction '%s' with addressing mode '%i' \n", line_tokens[0].line, line_tokens[0].text, addrmode);
 					return error;
+
 				case ERR_INVALID_SYMBOL:
+					return error;
+
+				case ERR_INVALID_VALUE:
+					return error;
+
+				case ERR_LARGE_VALUE:
 					return error;
 				}
 			}
@@ -211,7 +218,19 @@ int generate_binary(Token* tokens, int token_count, HashTable* symbol_table, Has
 		{
 			if (strcmp(tokens[tok_index].text, ".byte") == 0)
 			{
-				uint8_t byte = get_immediate_value(tokens[tok_index + 1].text);
+				uint16_t temp = get_value(tokens[tok_index + 1].text);
+				if (temp == 0xFFFF) 
+				{ 
+					fprintf(stderr, "\nError on line %d: Invalid value '%s' \n", tokens[tok_index + 1].line, tokens[tok_index + 1].text); 
+					return ERR_INVALID_VALUE; 
+				}
+				if (temp == 0xFFFE)
+				{
+					fprintf(stderr, "\nError on line %d: Value '%s' greater than 255(0xFF) \n", tokens[tok_index + 1].line, tokens[tok_index + 1].text);
+					return ERR_LARGE_VALUE;
+				}
+
+				uint8_t byte = (uint8_t)temp;
 				fwrite(&byte, sizeof(byte), 1, file);
 				printf("%.2x ", byte);
 				tok_index += 2;
@@ -246,7 +265,19 @@ int generate_binary(Token* tokens, int token_count, HashTable* symbol_table, Has
 			tok_index++;
 			break;
 		case ADDR_IMMEDIATE:
-			uint8_t imm_value = get_immediate_value(tokens[tok_index + 1].text + 1);
+			uint16_t temp = get_value(tokens[tok_index + 1].text + 1);
+			if (temp == 0xFFFF)
+			{
+				fprintf(stderr, "\nError on line %d: Invalid value '%s' \n", tokens[tok_index + 1].line, tokens[tok_index + 1].text);
+				return ERR_INVALID_VALUE;
+			}
+			if (temp == 0xFFFE)
+			{
+				fprintf(stderr, "\nError on line %d: Value '%s' greater than 255(0xFF) \n", tokens[tok_index + 1].line, tokens[tok_index + 1].text);
+				return ERR_LARGE_VALUE;
+			}
+
+			uint8_t imm_value = (uint8_t)temp;
 			fwrite(&opcode, sizeof(opcode), 1, file);
 			fwrite(&imm_value, sizeof(imm_value), 1, file);
 			printf("%.2x ", opcode);
@@ -303,17 +334,18 @@ uint16_t parse_address(const char* str)
 	return 0xFFFF;
 }
 
-// Converts immediate value text to uint8_t | Ex: #$20
+// Converts value text to uint8_t | Ex: #$20
 // '%' prefix - Binary | '$' prefix - Hexadecimal
-uint8_t get_immediate_value(const char* val)
+// 0xFFFF = Invalid Value | 0xFFFE = Value > 0xFF
+uint16_t get_value(const char* val)
 {
-	if (val[0] == '%')
-	{
-		return (uint8_t)strtol((val + 1), NULL, 2);
-	}
-	else if (val[0] == '$')
-	{
-		return (uint8_t)strtol((val + 1), NULL, 16);
-	}
-	return (uint8_t)strtol((val), NULL, 10);
+	char* endptr;
+	long result;
+	if (val[0] == '%') result = strtol((val + 1), &endptr, 2);
+	else if (val[0] == '$') result = strtol((val + 1), &endptr, 16);
+	else result = strtol(val, &endptr, 10);
+	if (*endptr != '\0') return 0xFFFF;
+	if (result > 0xFF) return 0xFFFE;
+
+	return (uint16_t)result;
 }

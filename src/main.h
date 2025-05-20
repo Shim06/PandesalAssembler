@@ -15,6 +15,8 @@ typedef enum
 	ERR_MEMORY_ALLOCATION_FAILED,
 	ERR_INVALID_INSTRUCTION,
 	ERR_INVALID_SYMBOL,
+	ERR_INVALID_VALUE,
+	ERR_LARGE_VALUE,
 	ERR_SYNTAX,
 	ERR_UNKNOWN,
 } ErrorCode;
@@ -25,4 +27,4 @@ void process_line(Token* tokens, int token_count, uint16_t* pc, int line, HashTa
 int generate_binary(Token* tokens, int token_count, HashTable* symbol_table, HashTable* mnemonic_table, FILE* file);
 uint16_t parse_address(const char* str);
 
-uint8_t get_immediate_value(const char* text);
+uint16_t get_value(const char* text);
