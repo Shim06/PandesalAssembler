@@ -97,6 +97,11 @@
 #define T2A_IMPL 0x5A
 #define T3A_IMPL 0x5B
 #define T4A_IMPL 0x5C
+#define TX0_IMPL 0x5D
+#define TX1_IMPL 0x5E
+#define TX2_IMPL 0x5F
+#define TX3_IMPL 0x60
+#define TX4_IMPL 0x61
 #define INVALID_OPCODE 0xFFFF
 
 typedef enum
@@ -166,6 +171,11 @@ typedef enum
 	MNEM_T2A,
 	MNEM_T3A,
 	MNEM_T4A,
+	MNEM_TX0,
+	MNEM_TX1,
+	MNEM_TX2,
+	MNEM_TX3,
+	MNEM_TX4,
 	MNEMONIC_COUNT,
 } Mnemonic;
 
